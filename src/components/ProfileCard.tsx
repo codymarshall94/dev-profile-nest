@@ -34,7 +34,7 @@ const ProfileCard: React.FC = () => {
   const { profile } = useProfile();
   
   const headerStyle = profile.headerImage 
-    ? { backgroundImage: profile.headerImage } 
+    ? { backgroundImage: `url(${profile.headerImage})` } 
     : { background: "linear-gradient(90deg, hsla(221, 45%, 73%, 1) 0%, hsla(220, 78%, 29%, 1) 100%)" };
   
   const avatarUrl = profile.avatar || "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80";
@@ -57,16 +57,16 @@ const ProfileCard: React.FC = () => {
       
       {/* Content Container */}
       <div className="relative px-6 pb-6">
-        {/* Avatar - positioned to overlap the header */}
-        <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
-          <Avatar className="w-24 h-24 border-4 border-white shadow-md">
+        {/* Avatar - positioned to overlap the header and content section */}
+        <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
+          <Avatar className="w-32 h-32 border-4 border-white shadow-md">
             <AvatarImage src={avatarUrl} alt={profile.name} />
             <AvatarFallback className="text-lg font-semibold">{initials}</AvatarFallback>
           </Avatar>
         </div>
         
-        {/* Profile Info - with padding-top to accommodate the avatar */}
-        <div className="mt-16 text-center">
+        {/* Profile Info - with increased padding-top to accommodate the avatar */}
+        <div className="mt-20 text-center">
           <h1 className="text-2xl font-bold tracking-tight">{profile.name}</h1>
           <p className="text-gray-600 mt-1">{profile.title}</p>
           <p className="text-sm text-gray-500 mt-1">{profile.location}</p>
