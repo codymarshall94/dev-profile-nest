@@ -46,26 +46,26 @@ const ProfileCard: React.FC = () => {
     .toUpperCase();
 
   return (
-    <div className="profile-card max-w-md mx-auto animate-scale rounded-lg overflow-hidden shadow-md" style={{ background: profile.background }}>
-      {/* Header Section */}
+    <div className="profile-card max-w-md mx-auto rounded-lg overflow-hidden shadow-md" style={{ background: profile.background }}>
+      {/* Header Section with increased height to accommodate avatar */}
       <div 
-        className="profile-header h-32 relative"
+        className="profile-header h-40 relative"
         style={headerStyle}
       >
         <div className="absolute inset-0 bg-black/20"></div>
-      </div>
-      
-      {/* Content Container */}
-      <div className="relative px-6 pb-6">
-        {/* Avatar - positioned to overlap the header and content section */}
-        <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
+        
+        {/* Avatar - moved to be part of the header */}
+        <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
           <Avatar className="w-32 h-32 border-4 border-white shadow-md">
             <AvatarImage src={avatarUrl} alt={profile.name} />
             <AvatarFallback className="text-lg font-semibold">{initials}</AvatarFallback>
           </Avatar>
         </div>
-        
-        {/* Profile Info - with increased padding-top to accommodate the avatar */}
+      </div>
+      
+      {/* Content Container - increased top padding to make space for the avatar */}
+      <div className="px-6 pb-6">
+        {/* Profile Info with sufficient margin to not be covered by the avatar */}
         <div className="mt-20 text-center">
           <h1 className="text-2xl font-bold tracking-tight">{profile.name}</h1>
           <p className="text-gray-600 mt-1">{profile.title}</p>
