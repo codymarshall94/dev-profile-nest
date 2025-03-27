@@ -2,6 +2,7 @@
 import React from "react";
 import { useProfile } from "@/utils/profileContext";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Github, Linkedin, Mail, Link as LinkIcon, Twitter, Instagram, Facebook, Youtube, Dribbble, Figma } from "lucide-react";
 
 const getIconComponent = (platform: string) => {
@@ -38,73 +39,83 @@ const ProfileCard: React.FC = () => {
   
   const avatarUrl = profile.avatar || "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80";
 
+  const initials = profile.name
+    .split(' ')
+    .map(name => name[0])
+    .join('')
+    .toUpperCase();
+
   return (
-    <div className="profile-card max-w-md mx-auto animate-scale" style={{ background: profile.background }}>
+    <div className="profile-card max-w-md mx-auto animate-scale rounded-lg overflow-hidden shadow-md" style={{ background: profile.background }}>
       {/* Header Section */}
-      <div className="profile-header" style={headerStyle}>
+      <div 
+        className="profile-header h-32 relative"
+        style={headerStyle}
+      >
         <div className="absolute inset-0 bg-black/20"></div>
       </div>
       
-      {/* Avatar */}
-      <div className="profile-avatar w-24 h-24">
-        <img 
-          src={avatarUrl} 
-          alt={profile.name} 
-          className="w-full h-full object-cover rounded-full"
-          loading="lazy"
-        />
-      </div>
-      
-      {/* Profile Info */}
-      <div className="mt-14 text-center px-6 pb-6">
-        <h1 className="text-2xl font-bold tracking-tight">{profile.name}</h1>
-        <p className="text-gray-600 mt-1">{profile.title}</p>
-        <p className="text-sm text-gray-500 mt-1">{profile.location}</p>
-        
-        {profile.bio && (
-          <p className="text-gray-700 mt-4 text-sm text-balance">{profile.bio}</p>
-        )}
-        
-        {/* Social Links */}
-        <div className="flex justify-center gap-3 mt-5">
-          {profile.links.map((link) => (
-            <a
-              key={link.id}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-white hover:bg-gray-700 transition-colors"
-              aria-label={link.platform}
-            >
-              {getIconComponent(link.platform)}
-            </a>
-          ))}
+      {/* Content Container */}
+      <div className="relative px-6 pb-6">
+        {/* Avatar - positioned to overlap the header */}
+        <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
+          <Avatar className="w-24 h-24 border-4 border-white shadow-md">
+            <AvatarImage src={avatarUrl} alt={profile.name} />
+            <AvatarFallback className="text-lg font-semibold">{initials}</AvatarFallback>
+          </Avatar>
         </div>
         
-        {/* Stats Section */}
-        {profile.stats.length > 0 && (
-          <div className="grid grid-cols-4 gap-3 mt-8">
-            {profile.stats.map((stat) => (
-              <div key={stat.id} className="text-center">
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <div className="text-xs text-gray-500 mt-1 text-balance">{stat.label}</div>
-              </div>
+        {/* Profile Info - with padding-top to accommodate the avatar */}
+        <div className="mt-16 text-center">
+          <h1 className="text-2xl font-bold tracking-tight">{profile.name}</h1>
+          <p className="text-gray-600 mt-1">{profile.title}</p>
+          <p className="text-sm text-gray-500 mt-1">{profile.location}</p>
+          
+          {profile.bio && (
+            <p className="text-gray-700 mt-4 text-sm text-balance">{profile.bio}</p>
+          )}
+          
+          {/* Social Links */}
+          <div className="flex justify-center gap-3 mt-5">
+            {profile.links.map((link) => (
+              <a
+                key={link.id}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-white hover:bg-gray-700 transition-colors"
+                aria-label={link.platform}
+              >
+                {getIconComponent(link.platform)}
+              </a>
             ))}
           </div>
-        )}
-        
-        {/* Skills Section */}
-        {profile.skills.length > 0 && (
-          <div className="mt-8">
-            <div className="flex flex-wrap justify-center gap-2">
-              {profile.skills.map((skill) => (
-                <Badge key={skill.id} variant="outline" className="px-3 py-1">
-                  {skill.name}
-                </Badge>
+          
+          {/* Stats Section */}
+          {profile.stats.length > 0 && (
+            <div className="grid grid-cols-4 gap-3 mt-8">
+              {profile.stats.map((stat) => (
+                <div key={stat.id} className="text-center">
+                  <div className="text-2xl font-bold">{stat.value}</div>
+                  <div className="text-xs text-gray-500 mt-1 text-balance">{stat.label}</div>
+                </div>
               ))}
             </div>
-          </div>
-        )}
+          )}
+          
+          {/* Skills Section */}
+          {profile.skills.length > 0 && (
+            <div className="mt-8">
+              <div className="flex flex-wrap justify-center gap-2">
+                {profile.skills.map((skill) => (
+                  <Badge key={skill.id} variant="outline" className="px-3 py-1">
+                    {skill.name}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

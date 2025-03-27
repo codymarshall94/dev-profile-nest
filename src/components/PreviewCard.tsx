@@ -9,7 +9,7 @@ const PreviewCard: React.FC = () => {
         <h3 className="text-sm font-medium">Preview</h3>
       </div>
       <div className="p-6 flex items-center justify-center bg-gray-50 min-h-[500px]">
-        <div className="transform scale-[0.8] origin-top">
+        <div className="w-full max-w-sm transform scale-[0.9] origin-top">
           <ProfileCard />
         </div>
       </div>
