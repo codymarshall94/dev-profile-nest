@@ -40,6 +40,8 @@ export type ProfileData = {
   skills: Skill[];
   stats: Stat[];
   projects: Project[];
+  hireabilityScore?: number;
+  showHireabilityScore: boolean;
 };
 
 // Default profile data
@@ -69,7 +71,9 @@ const defaultProfile: ProfileData = {
     { id: "2", label: "Projects completed", value: 20 },
     { id: "3", label: "Teams led", value: 3 },
   ],
-  projects: []
+  projects: [],
+  hireabilityScore: 85,
+  showHireabilityScore: true,
 };
 
 type ProfileContextType = {

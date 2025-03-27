@@ -3,7 +3,7 @@ import React from "react";
 import { useProfile } from "@/utils/profileContext";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Github, Linkedin, Mail, Link as LinkIcon, Twitter, Instagram, Facebook, Youtube, Dribbble, Figma } from "lucide-react";
+import { Github, Linkedin, Mail, Link as LinkIcon, Twitter, Instagram, Facebook, Youtube, Dribbble, Figma, BadgeCheck } from "lucide-react";
 
 const getIconComponent = (platform: string) => {
   switch (platform) {
@@ -45,6 +45,13 @@ const ProfileCard: React.FC = () => {
     .join('')
     .toUpperCase();
 
+  // Function to determine the color of the hireability score badge
+  const getHireabilityScoreColor = (score: number) => {
+    if (score >= 80) return "bg-green-500";
+    if (score >= 60) return "bg-yellow-500";
+    return "bg-red-500";
+  };
+
   return (
     <div className="profile-card max-w-md mx-auto rounded-lg overflow-hidden shadow-md" style={{ background: profile.background }}>
       {/* Header Section with increased height to accommodate avatar */}
@@ -70,6 +77,16 @@ const ProfileCard: React.FC = () => {
           <h1 className="text-2xl font-bold tracking-tight">{profile.name}</h1>
           <p className="text-gray-600 mt-1">{profile.title}</p>
           <p className="text-sm text-gray-500 mt-1">{profile.location}</p>
+          
+          {/* Hireability Score - only show if enabled */}
+          {profile.showHireabilityScore && profile.hireabilityScore !== undefined && (
+            <div className="mt-3 flex justify-center">
+              <div className={`flex items-center px-3 py-1 rounded-full ${getHireabilityScoreColor(profile.hireabilityScore)} text-white`}>
+                <BadgeCheck className="w-4 h-4 mr-1" />
+                <span className="text-sm font-medium">Hireability Score: {profile.hireabilityScore}%</span>
+              </div>
+            </div>
+          )}
           
           {profile.bio && (
             <p className="text-gray-700 mt-4 text-sm text-balance">{profile.bio}</p>

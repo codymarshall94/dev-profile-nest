@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { BadgeCheck } from "lucide-react";
 
 const ProfileForm: React.FC = () => {
   const { profile, updateProfile } = useProfile();
@@ -12,6 +14,17 @@ const ProfileForm: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     updateProfile({ [name]: value });
+  };
+
+  const handleSwitchChange = (checked: boolean) => {
+    updateProfile({ showHireabilityScore: checked });
+  };
+
+  const handleScoreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    if (!isNaN(value) && value >= 0 && value <= 100) {
+      updateProfile({ hireabilityScore: value });
+    }
   };
 
   return (
@@ -77,6 +90,40 @@ const ProfileForm: React.FC = () => {
           <p className="text-sm text-muted-foreground">
             Enter a URL for your profile picture
           </p>
+        </div>
+
+        {/* Hireability Score Settings */}
+        <div className="pt-4 border-t">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-2">
+              <BadgeCheck className="w-5 h-5 text-gray-700" />
+              <Label htmlFor="showHireabilityScore" className="font-medium">
+                Show Hireability Score
+              </Label>
+            </div>
+            <Switch 
+              id="showHireabilityScore"
+              checked={profile.showHireabilityScore}
+              onCheckedChange={handleSwitchChange}
+            />
+          </div>
+          
+          {profile.showHireabilityScore && (
+            <div className="space-y-2">
+              <Label htmlFor="hireabilityScore">Hireability Score (0-100)</Label>
+              <Input
+                id="hireabilityScore"
+                type="number"
+                min="0"
+                max="100"
+                value={profile.hireabilityScore ?? 0}
+                onChange={handleScoreChange}
+              />
+              <p className="text-sm text-muted-foreground">
+                Set your hireability score from 0 to 100
+              </p>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>
